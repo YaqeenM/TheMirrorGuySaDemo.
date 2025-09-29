@@ -323,15 +323,15 @@
     }
 
     .modal-content {
-      width: 800%;
+      width: 90%;
       max-width: 900px;
       background: rgb(248, 246, 246);
       border-radius: 8px;
-      padding: 2rem;
+      padding: 1.5rem;
       text-align: center;
       position: relative;
       box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      max-height: 90vh;
+      max-height: 80vh; /* Reduced from 90vh */
       overflow-y: auto;
     }
 
@@ -361,8 +361,8 @@
     /* Before/After Slider */
     .before-after-slide {
       position: relative;
-      width: 70%;
-      height: 80%;
+      width: 100%;
+      height: 350px; /* Reduced from 400px */
       overflow: hidden;
       border-radius: 10px;
       margin-bottom: 5px;
@@ -370,25 +370,28 @@
       -moz-user-select: none;
       -ms-user-select: none;
       user-select: none;
+      touch-action: none;
     }
 
     .before-after-slide img {
-      width: 80%;
-      height: 83%;
-      object-fit: cover;
+      width: 100%;
+      height: 100%;
+      object-fit: contain; /* Changed from cover to contain to prevent zooming */
       -webkit-user-drag: none;
       user-drag: none;
+      pointer-events: none;
     }
 
     .before-image {
       position: absolute;
       top: 0;
       left: 0;
-      width: 100%;
-      height: 120%;
+      width: 50%;
+      height: 100%;
       overflow: hidden;
       -webkit-user-select: none;
       user-select: none;
+      pointer-events: none;
     }
 
     .slider-handle {
@@ -405,6 +408,7 @@
       justify-content: center;
       -webkit-user-select: none;
       user-select: none;
+      touch-action: none;
     }
 
     .slider-handle::after {
@@ -426,7 +430,7 @@
     }
 
     .swiper {
-      width: 85%;
+      width: 100%;
       height: 100%;
     }
 
@@ -609,6 +613,12 @@
     }
 
     /* Responsive Design */
+    @media(max-width: 1024px) {
+      .before-after-slide {
+        height: 300px; /* Reduced from 350px */
+      }
+    }
+
     @media(max-width:768px) {
       .about { flex-direction: column; }
       .menu-toggle { display: flex; }
@@ -616,18 +626,21 @@
       .nav-links.active { display: flex; }
       .gallery-grid { grid-template-columns: 1fr; }
       .gallery-container h2 { font-size: 2rem; }
-      .before-after-slide { height: 40vh; }
+      .before-after-slide { height: 250px; } /* Reduced from 300px */
       .swiper-button-next, .swiper-button-prev { width: 40px; height: 40px; }
       main { padding: 100px 15px 30px; }
+      .modal-content { padding: 1.5rem; width: 95%; max-height: 85vh; }
     }
 
     @media(max-width: 480px) {
-      .before-after-slide { height: 30vh; }
+      .before-after-slide { height: 200px; } /* Reduced from 250px */
       .gallery-container h2 { font-size: 1.8rem; }
       main { padding: 100px 15px 30px; }
       .gallery-grid { grid-template-columns: 1fr; }
       .service-filter { flex-direction: column; align-items: center; }
       .back-to-top { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 18px; }
+      .modal-content { padding: 1rem; width: 95%; max-height: 90vh; }
+      .slider-handle::after { width: 35px; height: 35px; font-size: 0.7rem; }
     }
   </style>
 </head>
@@ -892,8 +905,15 @@
         handle.style.left = '50%';
 
         let isDragging = false;
+        let startPos = 0;
+        let currentPos = 50;
 
-        const getClientX = (e) => (e.touches ? e.touches[0].clientX : e.clientX);
+        const getClientX = (e) => {
+          if (e.type.includes('touch')) {
+            return e.touches[0].clientX;
+          }
+          return e.clientX;
+        };
 
         const moveSlider = (clientX) => {
           const rect = slider.getBoundingClientRect();
@@ -901,6 +921,7 @@
           pos = Math.max(0, Math.min(100, pos));
           beforeImage.style.width = `${pos}%`;
           handle.style.left = `${pos}%`;
+          currentPos = pos;
         };
 
         const preventDrag = (e) => { e.preventDefault(); return false; };
@@ -908,14 +929,33 @@
         slider.addEventListener('dragstart', preventDrag);
         slider.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', preventDrag));
 
-        handle.addEventListener('mousedown', (e) => { isDragging = true; e.preventDefault(); });
-        handle.addEventListener('touchstart', (e) => { isDragging = true; e.preventDefault(); });
+        const handleStart = (e) => {
+          isDragging = true;
+          startPos = getClientX(e) - (currentPos / 100 * slider.offsetWidth);
+          e.preventDefault();
+          e.stopPropagation();
+        };
 
-        slider.addEventListener('mousemove', (e) => { if (isDragging) moveSlider(getClientX(e)); });
-        slider.addEventListener('touchmove', (e) => { if (isDragging) moveSlider(getClientX(e)); });
+        const handleMove = (e) => {
+          if (!isDragging) return;
+          moveSlider(getClientX(e));
+          e.preventDefault();
+          e.stopPropagation();
+        };
 
-        document.addEventListener('mouseup', () => isDragging = false);
-        document.addEventListener('touchend', () => isDragging = false);
+        const handleEnd = () => {
+          isDragging = false;
+        };
+
+        // Mouse events
+        handle.addEventListener('mousedown', handleStart);
+        slider.addEventListener('mousemove', handleMove);
+        document.addEventListener('mouseup', handleEnd);
+
+        // Touch events
+        handle.addEventListener('touchstart', handleStart, { passive: false });
+        slider.addEventListener('touchmove', handleMove, { passive: false });
+        document.addEventListener('touchend', handleEnd);
 
         // Allow clicking on slider area to reposition handle
         slider.addEventListener('click', (e) => {
@@ -966,4 +1006,3 @@
   </script>
 </body>
 </html>
-
