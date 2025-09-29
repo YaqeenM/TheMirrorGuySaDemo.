@@ -1,0 +1,146 @@
+/* Basic Reset */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Arial', sans-serif;
+}
+
+/* Colors */
+:root {
+  --primary-red: #E63946;
+  --grey: #6C6C6C;
+  --light-grey: #f5f5f5;
+  --white: #FFFFFF;
+}
+
+/* Body */
+body {
+  background: var(--white);
+  color: var(--grey);
+  line-height: 1.6;
+}
+
+/* Header / Navbar */
+header {
+  background: var(--white);
+  padding: 15px 30px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--grey);
+}
+
+header a {
+  color: var(--grey);
+  text-decoration: none;
+  margin-left: 20px;
+  font-weight: bold;
+}
+
+header a:hover {
+  color: var(--primary-red);
+}
+
+/* Hero Section */
+.hero {
+  background: var(--light-grey);
+  padding: 100px 30px;
+  text-align: center;
+}
+
+.hero h1 {
+  color: var(--primary-red);
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+}
+
+.hero p {
+  color: var(--grey);
+  font-size: 1.2rem;
+}
+
+/* Sections */
+section {
+  padding: 60px 30px;
+}
+
+/* Services */
+.services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.service-card {
+  flex: 1 1 300px;
+  background: var(--white);
+  border: 1px solid var(--grey);
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.service-card h3 {
+  color: var(--primary-red);
+  margin-bottom: 10px;
+}
+
+/* Gallery */
+.gallery {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.gallery-item {
+  flex: 1 1 300px;
+  position: relative;
+}
+
+.gallery-item img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+/* Contact */
+.contact form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.contact input, .contact textarea {
+  padding: 10px;
+  border: 1px solid var(--grey);
+  border-radius: 5px;
+}
+
+.contact button {
+  padding: 12px;
+  background: var(--primary-red);
+  color: var(--white);
+  border: none;
+  cursor: pointer;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+.contact button:hover {
+  opacity: 0.9;
+}
+
+/* Footer */
+footer {
+  background: var(--grey);
+  color: var(--white);
+  text-align: center;
+  padding: 20px;
+}
+
+/* Responsive */
+@media(max-width:768px){
+  .services, .gallery {
+    flex-direction: column;
+  }
+}
