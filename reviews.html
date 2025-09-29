@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Reviews - TheMirrorGuysA</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    /* Reset and Base Styles */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    :root {
+      --primary-color: #e50914;
+      --secondary-color: #000;
+      --accent-color: #f5f5f1;
+      --text-color: #333;
+      --light-text: #fff;
+      --shadow: 0 4px 12px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      line-height: 1.6;
+      color: var(--text-color);
+      background-color: var(--accent-color);
+      overflow-x: hidden;
+    }
+    
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    
+    /* Header */
+    header { 
+      position: fixed; 
+      top: 0; 
+      left: 0; 
+      width: 100%; 
+      z-index: 1000; 
+      box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+    }
+    
+    .logo { 
+      background: #000; 
+      text-align: center; 
+      padding: 8px 0;
+    }
+    
+    .logo img { 
+      max-width: 140px;
+      height: auto; 
+    }
+
+    nav { 
+      background: #000; 
+      position: relative; 
+    }
+    
+    .nav-links { 
+      display: flex; 
+      justify-content: center; 
+      gap: 25px; 
+      padding: 8px 0;
+    }
+    
+    .nav-links a { 
+      color: #fff; 
+      text-decoration: none; 
+      font-weight: bold; 
+      position: relative;
+      font-size: 0.95rem;
+      transition: color 0.3s ease;
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      width: 0;
+      height: 2px;
+      background: var(--primary-color);
+      left: 0;
+      bottom: -5px;
+      transition: 0.3s;
+    }
+
+    .nav-links a:hover::after, .nav-links a.active::after {
+      width: 100%;
+    }
+
+    /* Mobile toggle */
+    .menu-toggle { 
+      display: none; 
+      flex-direction: column; 
+      cursor: pointer; 
+      padding: 8px;
+      position: absolute; 
+      right: 15px; 
+      top: 10px;
+    }
+    
+    .menu-toggle span { 
+      width: 24px;
+      height: 2.5px;
+      background: #fff; 
+      margin: 3px 0;
+      transition: var(--transition);
+    }
+    
+    .menu-toggle.active span:nth-child(1) {
+      transform: rotate(45deg) translate(6px, 6px);
+    }
+    
+    .menu-toggle.active span:nth-child(2) {
+      opacity: 0;
+    }
+    
+    .menu-toggle.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(6px, -6px);
+    }
+
+    /* Main content */
+    main { 
+      padding: 180px 20px 40px;
+      max-width: 1200px; 
+      margin: auto; 
+    }
+    
+    /* Main Heading Section - MOVED OUT OF BOX AND DOWN */
+    .main-heading {
+      text-align: center;
+      margin-top: 3%;
+      margin-bottom: 80px; 
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+    }
+    
+    .main-heading h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
+      position: relative;
+      display: inline-block;
+    }
+    
+    .main-heading h1::after {
+      content: '';
+      position: absolute;
+      width: 80px;
+      height: 4px;
+      background-color: var(--primary-color);
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+    }
+    
+    .main-heading p {
+      font-size: 1.2rem;
+      color: var(--text-color);
+      max-width: 700px;
+      margin: 0 auto;
+    }
+    
+    /* Reviews Section */
+    .reviews-page {
+      max-width: 1200px;
+      margin: 0 auto 80px;
+      padding: 0 20px;
+    }
+    
+    /* Review Filters */
+    .review-filters {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      margin-bottom: 40px;
+      flex-wrap: wrap;
+    }
+    
+    .filter-btn {
+      background: var(--light-text);
+      border: 2px solid #ddd;
+      color: var(--text-color);
+      padding: 8px 20px;
+      border-radius: 30px;
+      cursor: pointer;
+      transition: var(--transition);
+      font-weight: 600;
+    }
+    
+    .filter-btn.active, .filter-btn:hover {
+      background: var(--primary-color);
+      color: var(--light-text);
+      border-color: var(--primary-color);
+    }
+    
+    /* Reviews Grid */
+    .reviews-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+      gap: 30px;
+      margin-bottom: 60px;
+    }
+    
+    .review-card {
+      background: var(--light-text);
+      border-radius: 12px;
+      padding: 30px;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      position: relative;
+      border-left: 4px solid var(--primary-color);
+      display: flex;
+      flex-direction: column;
+    }
+    
+    .review-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+    }
+    
+    .review-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      margin-bottom: 20px;
+    }
+    
+    .reviewer-info {
+      display: flex;
+      align-items: center;
+    }
+    
+    /* REMOVED AVATAR STYLES */
+    
+    .reviewer-details h4 {
+      font-size: 1.2rem;
+      margin-bottom: 5px;
+      color: var(--secondary-color);
+    }
+    
+    .reviewer-details p {
+      color: var(--text-color);
+      font-size: 0.9rem;
+    }
+    
+    .review-date {
+      color: #777;
+      font-size: 0.85rem;
+    }
+    
+    .review-rating {
+      display: flex;
+      gap: 3px;
+      margin-bottom: 15px;
+    }
+    
+    .star {
+      color: #ffc107;
+      font-size: 1.2rem;
+    }
+    
+    .review-content {
+      margin-bottom: 20px;
+      flex-grow: 1;
+    }
+    
+    .review-text {
+      font-style: italic;
+      color: var(--text-color);
+      line-height: 1.7;
+      position: relative;
+      padding-left: 20px;
+    }
+    
+    .review-text::before {
+      content: '"';
+      position: absolute;
+      left: 0;
+      top: -10px;
+      font-size: 3rem;
+      color: var(--primary-color);
+      opacity: 0.3;
+      font-family: Georgia, serif;
+    }
+    
+    .review-service {
+      display: inline-block;
+      background: var(--primary-color);
+      color: var(--light-text);
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-top: auto;
+    }
+    
+    /* Review Stats */
+    .review-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 30px;
+      margin: 60px 0;
+      text-align: center;
+    }
+    
+    .stat-item {
+      padding: 25px;
+      background: var(--light-text);
+      border-radius: 10px;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+    }
+    
+    .stat-item:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+    
+    .stat-value {
+      font-size: 3rem;
+      font-weight: 700;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--text-color);
+      font-weight: 600;
+    }
+    
+    /* Add Review Form */
+    .add-review {
+      background: var(--light-text);
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: var(--shadow);
+      margin-top: 60px;
+    }
+    
+    .add-review h3 {
+      font-size: 1.8rem;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
+      text-align: center;
+    }
+    
+    .review-form {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+    
+    .form-group {
+      margin-bottom: 20px;
+    }
+    
+    .form-group.full-width {
+      grid-column: 1 / -1;
+    }
+    
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      font-weight: 600;
+      color: var(--text-color);
+    }
+    
+    .form-control {
+      width: 100%;
+      padding: 12px 15px;
+      border: 1px solid #ddd;
+      border-radius: 6px;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+    
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary-color);
+    }
+    
+    textarea.form-control {
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    .rating-input {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+    
+    .rating-star {
+      font-size: 1.5rem;
+      color: #ddd;
+      cursor: pointer;
+      transition: var(--transition);
+    }
+    
+    .rating-star:hover, .rating-star.active {
+      color: #ffc107;
+    }
+    
+    .submit-btn {
+      background: var(--primary-color);
+      color: var(--light-text);
+      border: none;
+      padding: 12px 30px;
+      border-radius: 6px;
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+    }
+    
+    .submit-btn:hover {
+      background: #b3070f;
+      transform: translateY(-2px);
+    }
+    
+    /* CTA Section */
+    .cta-section {
+      background: linear-gradient(135deg, var(--primary-color) 0%, #b3070f 100%);
+      color: var(--light-text);
+      text-align: center;
+      padding: 80px 20px;
+      border-radius: 12px;
+      margin-top: 80px;
+    }
+    
+    .cta-section h2 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+    
+    .cta-section p {
+      font-size: 1.2rem;
+      max-width: 700px;
+      margin: 0 auto 30px;
+      opacity: 0.9;
+    }
+    
+    .cta-button {
+      display: inline-block;
+      background: var(--light-text);
+      color: var(--primary-color);
+      padding: 14px 36px;
+      border-radius: 6px;
+      font-weight: 700;
+      transition: var(--transition);
+      border: 2px solid var(--light-text);
+    }
+    
+    .cta-button:hover {
+      background: transparent;
+      color: var(--light-text);
+    }
+    
+    /* Footer */
+    footer {
+      background: linear-gradient(135deg, #111, #222);
+      color: white;
+      padding: 40px 20px;
+      margin-top: 60px;
+    }
+    
+    .footer-content {
+      max-width: 1200px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 40px;
+    }
+    
+    .footer-section h3 {
+      margin-bottom: 20px;
+      color: var(--primary-color);
+    }
+    
+    .footer-section p, .footer-section a {
+      color: #ddd;
+      margin-bottom: 10px;
+      display: block;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+    
+    .footer-section a:hover {
+      color: var(--primary-color);
+      padding-left: 5px;
+    }
+    
+    .social-links {
+      display: flex;
+      gap: 15px;
+      margin-top: 15px;
+    }
+    
+    .social-links a {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 50%;
+      transition: var(--transition);
+    }
+    
+    .social-links a:hover {
+      background: var(--primary-color);
+      transform: rotate(10deg) scale(1.1);
+    }
+    
+    .copyright {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(255,255,255,0.1);
+      color: #aaa;
+      font-size: 0.9rem;
+    }
+
+    /* Back to top button */
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background-color: var(--primary-color);
+      color: white;
+      width: 50px;
+      height: 50px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      cursor: pointer;
+      z-index: 999;
+      opacity: 0;
+      visibility: hidden;
+      transition: var(--transition);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+    }
+    
+    .back-to-top:hover {
+      background-color: #c40812;
+      transform: translateY(-3px);
+      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+    }
+    
+    .back-to-top.active {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    /* Fade-in animations */
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: all 0.8s ease;
+    }
+
+    .fade-in.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+    
+    /* Responsive Design */
+    @media(max-width: 992px) {
+      .main-heading h1 { font-size: 2.2rem; }
+      .main-heading p { font-size: 1.1rem; }
+    }
+    
+    @media (max-width: 768px) {
+      .menu-toggle { display: flex; }
+      .nav-links { display: none; flex-direction: column; text-align: center; }
+      .nav-links.active { display: flex; }
+      .main-heading h1 {
+        font-size: 1.8rem;
+      }
+      .reviews-grid {
+        grid-template-columns: 1fr;
+      }
+      .review-form {
+        grid-template-columns: 1fr;
+      }
+      .review-stats {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .nav-links a { font-size: 1rem; }
+      .back-to-top {
+        bottom: 20px;
+        right: 20px;
+        width: 45px;
+        height: 45px;
+        font-size: 18px;
+      }
+    }
+    
+    @media (max-width: 480px) {
+      .main-heading h1 {
+        font-size: 1.6rem;
+      }
+      .review-stats {
+        grid-template-columns: 1fr;
+      }
+      .review-header {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+      .review-date {
+        margin-top: 10px;
+      }
+      .logo img { max-width: 120px; }
+      .back-to-top {
+        bottom: 15px;
+        right: 15px;
+        width: 40px;
+        height: 40px;
+        font-size: 16px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <img src="images/Logo.jpg" alt="TheMirrorGuySa Logo">
+    </div>
+
+    <nav>
+      <div class="nav-links" id="navLinks">
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html" class="active">Reviews</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="menu-toggle" id="menuToggle">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Back to top button -->
+  <div class="back-to-top" id="backToTop">
+    <i class="fas fa-chevron-up"></i>
+  </div>
+
+  <main>
+    <!-- Main Heading Section - MOVED OUT OF BOX AND DOWN -->
+    <section class="main-heading fade-in">
+      <h1>What Our Customers Say</h1>
+      <p>Don't just take our word for it - hear from our satisfied customers</p>
+    </section>
+
+    <div class="reviews-page">
+      <!-- Review Filters -->
+      <div class="review-filters fade-in">
+        <button class="filter-btn active" data-filter="all">All Reviews</button>
+        <button class="filter-btn" data-filter="mirrors">Frameless Mirrors</button>
+        <button class="filter-btn" data-filter="repairs">Glass Repairs</button>
+        <button class="filter-btn" data-filter="aluminium">Aluminium Services</button>
+        <button class="filter-btn" data-filter="emergency">Emergency Repairs</button>
+      </div>
+      
+     
+      <div class="reviews-grid">
+        <div class="review-card fade-in" data-service="mirrors">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-details">
+                <h4>Sarah Johnson</h4>
+                <p></p>
+              </div>
+            </div>
+            <div class="review-date">March 15, 2025</div>
+          </div>
+          <div class="review-rating">
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+          </div>
+          <div class="review-content">
+            <p class="review-text">The team at TheMirrorGuysA did an amazing job on our bathroom mirrors. They were professional, punctual, and the quality of work is outstanding! The mirrors fit perfectly and have completely transformed our bathroom. I would highly recommend their services.</p>
+          </div>
+          <span class="review-service">Frameless Mirror Fitting</span>
+        </div>
+        
+        <div class="review-card fade-in" data-service="repairs">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-details">
+                <h4>Michael Brown</h4>
+                <p></p>
+              </div>
+            </div>
+            <div class="review-date">August 28, 2025</div>
+          </div>
+          <div class="review-rating">
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+          </div>
+          <div class="review-content">
+            <p class="review-text">We needed emergency glass replacement for our storefront after hours, and TheMirrorGuysA was there within two hours. Their quick response saved us from potential security issues. Excellent service and quality work! Will definitely use them again.</p>
+          </div>
+          <span class="review-service">Glass Repairs</span>
+        </div>
+        
+        <!--  Review cards  -->
+        <div class="review-card fade-in" data-service="aluminium">
+          <div class="review-header">
+            <div class="reviewer-info">
+              <div class="reviewer-details">
+                <h4>Rachel Davis</h4>
+                <p></p>
+              </div>
+            </div>
+            <div class="review-date">January 12, 2025</div>
+          </div>
+          <div class="review-rating">
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+            <span class="star"><i class="fas fa-star"></i></span>
+          </div>
+          <div class="review-content">
+            <p class="review-text">The custom glass partitions they installed in our office have completely transformed the space. The team was professional, clean, and completed the project ahead of schedule. Highly recommended for any commercial glass work!</p>
+          </div>
+          <span class="review-service">Aluminium Maintenance</span>
+        </div>
+        
+       
+      </div>
+      
+      
+      <div class="review-stats">
+        <div class="stat-item fade-in">
+          <div class="stat-value">4.9</div>
+          <div class="stat-label">Average Rating</div>
+        </div>
+        <div class="stat-item fade-in">
+          <div class="stat-value">200+</div>
+          <div class="stat-label">5-Star Reviews</div>
+        </div>
+        <div class="stat-item fade-in">
+          <div class="stat-value">98%</div>
+          <div class="stat-label">Customer Satisfaction</div>
+        </div>
+        <div class="stat-item fade-in">
+          <div class="stat-value">15+</div>
+          <div class="stat-label">Years of Experience</div>
+        </div>
+      </div>
+      
+      <div class="add-review fade-in">
+        <h3>Share Your Experience</h3>
+        <form class="review-form" id="reviewForm">
+          <div class="form-group">
+            <label for="reviewer-name">Your Name</label>
+            <input type="text" id="reviewer-name" class="form-control" placeholder="Enter your name">
+          </div>
+          
+          <div class="form-group">
+            <label for="reviewer-email">Your Email</label>
+            <input type="email" id="reviewer-email" class="form-control" placeholder="Enter your email">
+          </div>
+          
+          <div class="form-group">
+            <label for="review-service">Service Received</label>
+            <select id="review-service" class="form-control">
+              <option value="">Select a service</option>
+              <option value="mirrors">Frameless Mirrors</option>
+              <option value="repairs">Glass Repairs</option>
+              <option value="aluminium">Aluminium Services</option>
+              <option value="emergency">Emergency Repairs</option>
+            </select>
+          </div>
+          
+          <div class="form-group">
+            <label>Your Rating</label>
+            <div class="rating-input">
+              <span class="rating-star" data-rating="1">★</span>
+              <span class="rating-star" data-rating="2">★</span>
+              <span class="rating-star" data-rating="3">★</span>
+              <span class="rating-star" data-rating="4">★</span>
+              <span class="rating-star" data-rating="5">★</span>
+            </div>
+          </div>
+          
+          <div class="form-group full-width">
+            <label for="review-text">Your Review</label>
+            <textarea id="review-text" class="form-control" placeholder="Tell us about your experience"></textarea>
+          </div>
+          
+          <div class="form-group full-width" style="text-align: center;">
+            <button type="submit" class="submit-btn">Submit Review</button>
+          </div>
+        </form>
+      </div>
+      
+      <div class="cta-section fade-in">
+        <h2>Ready to Experience Our Service?</h2>
+        <p>Join our satisfied customers and let us bring your mirror and glass vision to life</p>
+        <a href="contact.html" class="cta-button">Get a Free Quote</a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="footer-content">
+      <div class="footer-section">
+        <h3>Contact Info</h3>
+        <p><i class="fas fa-map-marker-alt"></i> Cape Town, South Africa</p>
+        <p><i class="fas fa-phone"></i> +27 11 123 4567</p>
+        <p><i class="fas fa-envelope"></i> info@themirrorguys.co.za</p>
+      </div>
+      <div class="footer-section">
+        <h3>Quick Links</h3>
+        <a href="index.html">Home</a>
+        <a href="services.html">Services</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="reviews.html">Reviews</a>
+        <a href="contact.html">Contact</a>
+      </div>
+      <div class="footer-section">
+        <h3>Follow Us</h3>
+        <p>Stay connected with us on social media</p>
+        <div class="social-links">
+          <a href="#"><i class="fab fa-facebook-f"></i></a>
+          <a href="#"><i class="fab fa-instagram"></i></a>
+          <a href="#"><i class="fab fa-linkedin-in"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="copyright">
+      <p>&copy; 2023 The Mirror Guys SA. All Rights Reserved.</p>
+    </div>
+  </footer>
+
+  <script>
+    // Mobile menu toggle
+    const menuToggle = document.getElementById("menuToggle");
+    const navLinks = document.getElementById("navLinks");
+    
+    menuToggle.addEventListener("click", () => {
+      navLinks.classList.toggle("active");
+      menuToggle.classList.toggle("active");
+    });
+
+    // Review filtering functionality
+    document.addEventListener('DOMContentLoaded', function() {
+      const filterButtons = document.querySelectorAll('.filter-btn');
+      const reviewCards = document.querySelectorAll('.review-card');
+      
+      filterButtons.forEach(button => {
+        button.addEventListener('click', function() {
+          const filter = this.getAttribute('data-filter');
+          
+          // Update active button
+          filterButtons.forEach(btn => btn.classList.remove('active'));
+          this.classList.add('active');
+          
+          // Filter reviews
+          reviewCards.forEach(card => {
+            if (filter === 'all' || card.getAttribute('data-service') === filter) {
+              card.style.display = 'flex';
+            } else {
+              card.style.display = 'none';
+            }
+          });
+        });
+      });
+      
+      // Star rating functionality
+      const ratingStars = document.querySelectorAll('.rating-star');
+      let currentRating = 0;
+      
+      ratingStars.forEach(star => {
+        star.addEventListener('click', function() {
+          const rating = parseInt(this.getAttribute('data-rating'));
+          currentRating = rating;
+          
+          // Update star display
+          ratingStars.forEach(s => {
+            if (parseInt(s.getAttribute('data-rating')) <= rating) {
+              s.classList.add('active');
+            } else {
+              s.classList.remove('active');
+            }
+          });
+        });
+        
+        // Hover effect
+        star.addEventListener('mouseover', function() {
+          const rating = parseInt(this.getAttribute('data-rating'));
+          
+          ratingStars.forEach(s => {
+            if (parseInt(s.getAttribute('data-rating')) <= rating) {
+              s.style.color = '#ffc107';
+            } else {
+              s.style.color = '#ddd';
+            }
+          });
+        });
+        
+        star.addEventListener('mouseout', function() {
+          ratingStars.forEach(s => {
+            if (parseInt(s.getAttribute('data-rating')) <= currentRating) {
+              s.style.color = '#ffc107';
+            } else {
+              s.style.color = '#ddd';
+            }
+          });
+        });
+      });
+      
+      // Review form submission
+      const reviewForm = document.getElementById('reviewForm');
+      reviewForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Thank you for your review! It will be published after moderation.');
+        reviewForm.reset();
+        
+        // Reset stars
+        ratingStars.forEach(star => {
+          star.classList.remove('active');
+          star.style.color = '#ddd';
+        });
+        currentRating = 0;
+      });
+    });
+
+    // Scroll animations
+    const faders = document.querySelectorAll('.fade-in');
+    const appearOptions = { threshold: 0.3 };
+    const appearOnScroll = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+    faders.forEach(fader => appearOnScroll.observe(fader));
+
+    // Back to top functionality
+    const backToTopButton = document.getElementById("backToTop");
+    
+    window.addEventListener("scroll", () => {
+      if (window.pageYOffset > 300) {
+        backToTopButton.classList.add("active");
+      } else {
+        backToTopButton.classList.remove("active");
+      }
+    });
+    
+    backToTopButton.addEventListener("click", () => {
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+      });
+    });
+  </script>
+</body>
+</html>
