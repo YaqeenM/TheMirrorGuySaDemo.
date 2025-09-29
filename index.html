@@ -1,1008 +1,680 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Before & After Gallery | The Mirror Guys SA</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css"/>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
-  <style>
-    :root {
-      --primary-color: #e50914;
-      --secondary-color: #000;
-      --accent-color: #f5f5f1;
-      --text-color: #333;
-      --light-text: #fff;
-      --shadow: 0 4px 12px rgba(0,0,0,0.1);
-      --transition: all 0.3s ease;
-    }
-
-    html { scroll-behavior: smooth; }
-
-    /* Reset and Base Styles */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      line-height: 1.6;
-      background: var(--accent-color);
-      color: var(--text-color);
-      overflow-x: hidden;
-    }
-
-    /* Fixed Header */
-    header {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      z-index: 1000;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-      transition: top 0.18s ease;
-    }
-
-    .logo {
-      background: #000;
-      text-align: center;
-      padding: 8px 0;
-    }
-
-    .logo img {
-      max-width: 140px;
-      height: auto;
-    }
-
-    nav {
-      background: #000;
-      position: relative;
-    }
-
-    .nav-links {
-      display: flex;
-      justify-content: center;
-      gap: 25px;
-      padding: 8px 0;
-    }
-
-    .nav-links a {
-      color: #fff;
-      text-decoration: none;
-      font-weight: bold;
-      position: relative;
-      font-size: 0.95rem;
-      transition: color 0.3s ease;
-    }
-
-    .nav-links a::after {
-      content: '';
-      position: absolute;
-      width: 0;
-      height: 2px;
-      background: var(--primary-color);
-      left: 0;
-      bottom: -5px;
-      transition: 0.3s;
-    }
-
-    .nav-links a:hover::after, .nav-links a.active::after {
-      width: 100%;
-    }
-
-    /* Mobile toggle */
-    .menu-toggle {
-      display: none;
-      flex-direction: column;
-      cursor: pointer;
-      padding: 8px;
-      position: absolute;
-      right: 15px;
-      top: 10px;
-    }
-
-    .menu-toggle span {
-      width: 24px;
-      height: 2.5px;
-      background: #fff;
-      margin: 3px 0;
-      transition: var(--transition);
-    }
-
-    .menu-toggle.active span:nth-child(1) {
-      transform: rotate(45deg) translate(6px, 6px);
-    }
-
-    .menu-toggle.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .menu-toggle.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(6px, -6px);
-    }
-
-    /* Main content */
-    main {
-      padding: 110px 20px 40px;
-      max-width: 1200px;
-      margin: auto;
-    }
-
-    section {
-      margin-bottom: 60px;
-    }
-
-    h1 {
-      text-align: center;
-      color: var(--primary-color);
-      margin-bottom: 30px;
-      font-size: 2.5rem;
-      position: relative;
-      padding-bottom: 15px;
-    }
-
-    h1::after {
-      content: '';
-      position: absolute;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: var(--primary-color);
-    }
-
-    h2 {
-      margin-top: 40px;
-      color: var(--secondary-color);
-      border-bottom: 2px solid var(--primary-color);
-      display: inline-block;
-      padding-bottom: 5px;
-      font-size: 1.8rem;
-    }
-
-    p {
-      margin-top: 15px;
-      color: #444;
-      font-size: 1.1rem;
-      line-height: 1.7;
-    }
-
-    /* Gallery Container */
-    .gallery-container {
-      max-width: 1200px;
-      margin: 0 auto 60px;
-      padding: 0 20px;
-    }
-
-    .gallery-container h2 {
-      text-align: center;
-      font-size: 2.2rem;
-      margin-bottom: 15px;
-      color: var(--secondary-color);
-      position: relative;
-      padding-bottom: 15px;
-      border-bottom: none;
-      margin-top: 0;
-      display: block;
-    }
-
-    .gallery-container h2::after {
-      content: '';
-      position: absolute;
-      width: 80px;
-      height: 3px;
-      background-color: var(--primary-color);
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-    }
-
-    .gallery-subtitle {
-      text-align: center;
-      font-size: 1.2rem;
-      color: #666;
-      margin-bottom: 40px;
-      max-width: 600px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    /* Filter Buttons */
-    .service-filter {
-      display: flex;
-      justify-content: center;
-      gap: 1rem;
-      margin: 2rem 0;
-      flex-wrap: wrap;
-    }
-
-    .service-filter button {
-      background: white;
-      border: 2px solid var(--primary-color);
-      color: var(--text-color);
-      padding: 0.6rem 1.5rem;
-      cursor: pointer;
-      transition: all var(--transition);
-      text-transform: uppercase;
-      font-weight: bold;
-      border-radius: 4px;
-    }
-
-    .service-filter button.active,
-    .service-filter button:hover {
-      background: var(--primary-color);
-      color: white;
-      border-color: var(--primary-color);
-    }
-
-    /* Gallery Grid */
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-      gap: 1.5rem;
-    }
-
-    .gallery-item {
-      position: relative;
-      overflow: hidden;
-      cursor: pointer;
-      border: 1px solid #ddd;
-      border-radius: 10px;
-      background: white;
-      box-shadow: var(--shadow);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
-
-    .gallery-item:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 10px 20px rgba(0,0,0,0.15);
-    }
-
-    .gallery-item img {
-      width: 100%;
-      height: 250px;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.4s ease;
-    }
-
-    .gallery-item:hover img {
-      transform: scale(1.05);
-    }
-
-    .service-badge {
-      position: absolute;
-      top: 10px;
-      right: 10px;
-      background-color: var(--primary-color);
-      color: white;
-      padding: 0.3rem 0.8rem;
-      border-radius: 20px;
-      font-size: 0.8rem;
-      font-weight: bold;
-      text-transform: uppercase;
-    }
-
-    .gallery-item-info {
-      padding: 20px;
-    }
-
-    .gallery-item-info h3 {
-      margin: 0 0 10px 0;
-      font-size: 1.2rem;
-      color: var(--secondary-color);
-    }
-
-    .gallery-item-info p {
-      margin: 0;
-      color: #666;
-      font-size: 0.9rem;
-      line-height: 1.5;
-    }
-
-    /* Modal */
-    .modal-overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: rgba(30,30,30,0.95);
-      display: none;
-      justify-content: center;
-      align-items: center;
-      z-index: 1000;
-      padding: 20px;
-    }
-
-    .modal-overlay.active {
-      display: flex;
-    }
-
-    .modal-content {
-      width: 90%;
-      max-width: 900px;
-      background: rgb(248, 246, 246);
-      border-radius: 8px;
-      padding: 2rem;
-      text-align: center;
-      position: relative;
-      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-      max-height: 90vh;
-      overflow-y: auto;
-    }
-
-    .close-modal {
-      position: absolute;
-      top: 15px;
-      right: 20px;
-      color: #333;
-      font-size: 2rem;
-      cursor: pointer;
-      z-index: 10;
-      transition: color 0.3s ease;
-      background: rgba(255, 255, 255, 0.8);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-
-    .close-modal:hover {
-      color: var(--primary-color);
-      background: white;
-    }
-
-    /* Before/After Slider */
-    .before-after-slide {
-      position: relative;
-      width: 100%;
-      height: 400px;
-      overflow: hidden;
-      border-radius: 10px;
-      margin-bottom: 5px;
-      -webkit-user-select: none;
-      -moz-user-select: none;
-      -ms-user-select: none;
-      user-select: none;
-      touch-action: none;
-    }
-
-    .before-after-slide img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      -webkit-user-drag: none;
-      user-drag: none;
-      pointer-events: none;
-    }
-
-    .before-image {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 50%;
-      height: 100%;
-      overflow: hidden;
-      -webkit-user-select: none;
-      user-select: none;
-      pointer-events: none;
-    }
-
-    .slider-handle {
-      position: absolute;
-      top: 0;
-      left: 50%;
-      width: 4px;
-      height: 100%;
-      background: var(--primary-color);
-      cursor: ew-resize;
-      z-index: 10;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      -webkit-user-select: none;
-      user-select: none;
-      touch-action: none;
-    }
-
-    .slider-handle::after {
-      content: "TMG";
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      background: var(--primary-color);
-      color: rgb(246, 247, 252);
-      width: 40px;
-      height: 40px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: bold;
-      font-size: 0.8rem;
-    }
-
-    .swiper {
-      width: 100%;
-      height: 100%;
-    }
-
-    .swiper-slide {
-      text-align: center;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .swiper-button-next, .swiper-button-prev {
-      color: var(--primary-color);
-      background: rgba(255, 255, 255, 0.7);
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-    }
-
-    .swiper-button-next:after, .swiper-button-prev:after {
-      font-size: 1.5rem;
-    }
-
-    .swiper-pagination-bullet-active {
-      background: var(--primary-color);
-    }
-
-    .modal-project-info {
-      margin-top: 20px;
-      padding: 0 20px;
-    }
-
-    .modal-project-info h3 {
-      font-size: 1.5rem;
-      margin-bottom: 10px;
-      color: var(--secondary-color);
-    }
-
-    .modal-project-info p {
-      color: #666;
-      line-height: 1.6;
-    }
-
-    /* Call to Action Section */
-    .cta-section {
-      background: var(--secondary-color);
-      color: rgb(250, 249, 249);
-      padding: 50px 20px;
-      text-align: center;
-      border-radius: 10px;
-      margin-top: 40px;
-    }
-
-    .cta-section h2 {
-      color: white;
-      border-bottom: none;
-      margin-bottom: 20px;
-    }
-
-    .cta-section p {
-      color: #ddd;
-      max-width: 700px;
-      margin: 0 auto 25px;
-    }
-
-    .btn {
-      display: inline-block;
-      background: var(--primary-color);
-      color: white;
-      padding: 12px 30px;
-      border-radius: 5px;
-      text-decoration: none;
-      font-weight: 600;
-      font-size: 1.1rem;
-      transition: transform 0.3s ease, background 0.3s ease;
-      border: 2px solid var(--primary-color);
-    }
-
-    .btn:hover {
-      background: transparent;
-      color: var(--primary-color);
-      transform: translateY(-3px);
-    }
-
-    /* Footer */
-    footer {
-      background: linear-gradient(135deg, #111, #222);
-      color: white;
-      padding: 40px 20px;
-      margin-top: 60px;
-    }
-
-    .footer-content {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 40px;
-    }
-
-    .footer-section h3 {
-      margin-bottom: 20px;
-      color: var(--primary-color);
-    }
-
-    .footer-section p, .footer-section a {
-      color: #ddd;
-      margin-bottom: 10px;
-      display: block;
-      text-decoration: none;
-      transition: var(--transition);
-    }
-
-    .footer-section a:hover {
-      color: var(--primary-color);
-      padding-left: 5px;
-    }
-
-    .social-links {
-      display: flex;
-      gap: 15px;
-      margin-top: 15px;
-    }
-
-    .social-links a {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      width: 40px;
-      height: 40px;
-      background: rgba(255,255,255,0.1);
-      border-radius: 50%;
-      transition: var(--transition);
-    }
-
-    .social-links a:hover {
-      background: var(--primary-color);
-      transform: rotate(10deg) scale(1.1);
-    }
-
-    .copyright {
-      text-align: center;
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid rgba(255,255,255,0.1);
-      color: #aaa;
-      font-size: 0.9rem;
-    }
-
-    /* Back to top button */
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>The Mirror Guys SA | Quality Mirror & Glass Solutions</title>
+<meta name="description" content="The Mirror Guys SA offers premium mirror and glass solutions, including bathroom mirrors, glass partitions, and home renovations in South Africa.">
+<style>
+  /* Reset and Base Styles */
+  * { 
+    margin: 0; 
+    padding: 0; 
+    box-sizing: border-box; 
+  }
+  
+  :root {
+    --primary-color: #e50914;
+    --secondary-color: #000;
+    --accent-color: #f5f5f1;
+    --text-color: #333;
+    --light-text: #fff;
+    --shadow: 0 4px 12px rgba(0,0,0,0.1);
+    --transition: all 0.3s ease;
+  }
+  
+  body { 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+    line-height: 1.6; 
+    background: var(--accent-color); 
+    color: var(--text-color);
+    overflow-x: hidden;
+  }
+
+  /* Header - Made thinner */
+  header { 
+    position: fixed; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    z-index: 1000; 
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15); 
+  }
+  
+  .logo { 
+    background: #000; 
+    text-align: center; 
+    padding: 8px 0; 
+  }
+  
+  .logo img { 
+    max-width: 140px; 
+    height: auto; 
+  }
+
+  nav { 
+    background: #000; 
+    position: relative; 
+  }
+  
+  .nav-links { 
+    display: flex; 
+    justify-content: center; 
+    gap: 25px; 
+    padding: 8px 0; 
+  }
+  
+  .nav-links a { 
+    color: #fff; 
+    text-decoration: none; 
+    font-weight: bold; 
+    position: relative;
+    font-size: 0.95rem;
+    transition: color 0.3s ease;
+  }
+
+  .nav-links a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--primary-color);
+    left: 0;
+    bottom: -5px;
+    transition: 0.3s;
+  }
+
+  .nav-links a:hover::after, .nav-links a.active::after {
+    width: 100%;
+  }
+
+  /* Mobile toggle */
+  .menu-toggle { 
+    display: none; 
+    flex-direction: column; 
+    cursor: pointer; 
+    padding: 8px; 
+    position: absolute; 
+    right: 15px; 
+    top: 10px; 
+  }
+  
+  .menu-toggle span { 
+    width: 24px; 
+    height: 2.5px; 
+    background: #fff; 
+    margin: 3px 0; 
+    transition: var(--transition);
+  }
+  
+  .menu-toggle.active span:nth-child(1) {
+    transform: rotate(45deg) translate(6px, 6px);
+  }
+  
+  .menu-toggle.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .menu-toggle.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(6px, -6px);
+  }
+
+ 
+  main { 
+    padding: 130px 20px 40px; 
+    max-width: 1200px; 
+    margin: auto; 
+  }
+  
+  section {
+    margin-bottom: 60px;
+  }
+
+  h1 { 
+    text-align: center; 
+    color: var(--primary-color); 
+    margin-bottom: 30px; 
+    margin-top: 8%;
+    font-size: 2.5rem;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  h1::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: var(--primary-color);
+  }
+  
+  h2 { 
+    margin-top: 40px; 
+    color: var(--secondary-color); 
+    border-bottom: 2px solid var(--primary-color); 
+    display: inline-block; 
+    padding-bottom: 5px; 
+    padding-top: 80px;
+    font-size: 1.8rem;
+  }
+  
+  p { 
+    margin-top: 15px; 
+    color: #444; 
+    font-size: 1.1rem;
+    line-height: 1.7;
+  }
+
+ 
+
+  /* About section */
+  .about { 
+    display: flex; 
+    flex-wrap: wrap; 
+    gap: 40px; 
+    align-items: center; 
+    margin-top: 30px; 
+  }
+  
+  .about img { 
+    max-width: 500px; 
+    width: 100%; 
+    border-radius: 10px; 
+    box-shadow: var(--shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  .about img:hover {
+    transform: scale(1.03) translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  }
+  
+  .about-text { 
+    flex: 1; 
+    min-width: 300px;
+  }
+
+  /* About paragraph styling with border/bubble effect */
+  .about-text p {
+    background: white;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: var(--shadow);
+    margin-bottom: 20px;
+    position: relative;
+    transition: var(--transition);
+    border-left: 4px solid var(--primary-color);
+  }
+
+  .about-text p:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+  }
+
+  /* Services gallery */
+  .services-gallery { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 30px; 
+    margin-top: 30px; 
+  }
+  
+  .service-item {
+    background: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  .service-item:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  }
+  
+  .services-gallery img { 
+    width: 100%; 
+    height: 200px;
+    object-fit: cover;
+    transition: transform 0.4s ease;
+  }
+  
+  .service-item:hover img {
+    transform: scale(1.05);
+  }
+  
+  .service-item p { 
+    text-align: center; 
+    margin: 15px 0; 
+    font-weight: 600;
+    font-size: 1.2rem;
+  }
+
+  /* Why Choose Us */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 25px;
+    margin-top: 30px;
+  }
+  
+  .feature {
+    background: white;
+    padding: 25px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: var(--shadow);
+    transition: transform 0.4s ease, box-shadow 0.4s ease;
+  }
+  
+  .feature:hover {
+    transform: translateY(-5px);
+  }
+  
+  .feature i {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 15px;
+  }
+  
+  .feature h3 {
+    margin-bottom: 10px;
+    color: var(--secondary-color);
+  }
+
+  /* Call to Action */
+  .cta {
+    background: var(--secondary-color);
+    color: white;
+    padding: 50px 20px;
+    text-align: center;
+    border-radius: 10px;
+    margin-top: 40px;
+  }
+  
+  .cta h2 {
+    color: white;
+    border-bottom: none;
+    margin-bottom: 20px;
+  }
+  
+  .cta p {
+    color: #ddd;
+    max-width: 700px;
+    margin: 0 auto 25px;
+  }
+  
+  .btn {
+    display: inline-block;
+    background: var(--primary-color);
+    color: white;
+    padding: 12px 30px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: transform 0.3s ease, background 0.3s ease;
+    border: 2px solid var(--primary-color);
+  }
+  
+  .btn:hover {
+    background: transparent;
+    color: var(--primary-color);
+    transform: translateY(-3px);
+  }
+
+  /* Footer */
+  footer {
+    background: linear-gradient(135deg, #111, #222);
+    color: white;
+    padding: 40px 20px;
+    margin-top: 60px;
+  }
+  
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 40px;
+  }
+  
+  .footer-section h3 {
+    margin-bottom: 20px;
+    color: var(--primary-color);
+  }
+  
+  .footer-section p, .footer-section a {
+    color: #ddd;
+    margin-bottom: 10px;
+    display: block;
+    text-decoration: none;
+    transition: var(--transition);
+  }
+  
+  .footer-section a:hover {
+    color: var(--primary-color);
+    padding-left: 5px;
+  }
+  
+  .social-links {
+    display: flex;
+    gap: 15px;
+    margin-top: 15px;
+  }
+  
+  .social-links a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    transition: var(--transition);
+  }
+  
+  .social-links a:hover {
+    background: var(--primary-color);
+    transform: rotate(10deg) scale(1.1);
+  }
+  
+  .copyright {
+    text-align: center;
+    margin-top: 40px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    color: #aaa;
+    font-size: 0.9rem;
+  }
+
+  /* Fade-in animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Back to top button */
+  .back-to-top {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background-color: var(--primary-color);
+    color: white;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
+    box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  }
+  
+  .back-to-top:hover {
+    background-color: #c40812;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  }
+  
+  .back-to-top.active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  /* Responsive */
+  @media(max-width: 992px) {
+    .hero-overlay h1 { font-size: 2.5rem; }
+    .hero-overlay p { font-size: 1.1rem; }
+  }
+  
+  @media(max-width:768px) {
+    .about { flex-direction: column; }
+    .menu-toggle { display: flex; }
+    .nav-links { display: none; flex-direction: column; text-align: center; }
+    .nav-links.active { display: flex; }
+    .hero img { height: 350px; }
+    .hero-overlay h1 { font-size: 2rem; }
+    h1 { font-size: 2rem; }
+    .nav-links a { font-size: 1rem; } /* Slightly larger on mobile */
     .back-to-top {
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      background-color: var(--primary-color);
-      color: white;
-      width: 50px;
-      height: 50px;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 20px;
-      cursor: pointer;
-      z-index: 999;
-      opacity: 0;
-      visibility: hidden;
-      transition: var(--transition);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+      bottom: 20px;
+      right: 20px;
+      width: 45px;
+      height: 45px;
+      font-size: 18px;
     }
-
-    .back-to-top:hover {
-      background-color: #c40812;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 15px rgba(0,0,0,0.3);
+  }
+  
+  @media(max-width: 480px) {
+    .hero img { height: 250px; }
+    .hero-overlay h1 { font-size: 1.8rem; }
+    .hero-overlay p { font-size: 1rem; }
+    main { padding: 120px 15px 30px; } /* Adjusted for thinner header */
+    .services-gallery { grid-template-columns: 1fr; }
+    .logo img { max-width: 120px; } /* Smaller logo on mobile */
+    .back-to-top {
+      bottom: 15px;
+      right: 15px;
+      width: 40px;
+      height: 40px;
+      font-size: 16px;
     }
-
-    .back-to-top.active {
-      opacity: 1;
-      visibility: visible;
-    }
-
-    /* Responsive Design */
-    @media(max-width: 1024px) {
-      .before-after-slide {
-        height: 350px;
-      }
-    }
-
-    @media(max-width:768px) {
-      .about { flex-direction: column; }
-      .menu-toggle { display: flex; }
-      .nav-links { display: none; flex-direction: column; text-align: center; }
-      .nav-links.active { display: flex; }
-      .gallery-grid { grid-template-columns: 1fr; }
-      .gallery-container h2 { font-size: 2rem; }
-      .before-after-slide { height: 300px; }
-      .swiper-button-next, .swiper-button-prev { width: 40px; height: 40px; }
-      main { padding: 100px 15px 30px; }
-      .modal-content { padding: 1.5rem; width: 95%; }
-    }
-
-    @media(max-width: 480px) {
-      .before-after-slide { height: 250px; }
-      .gallery-container h2 { font-size: 1.8rem; }
-      main { padding: 100px 15px 30px; }
-      .gallery-grid { grid-template-columns: 1fr; }
-      .service-filter { flex-direction: column; align-items: center; }
-      .back-to-top { bottom: 20px; right: 20px; width: 45px; height: 45px; font-size: 18px; }
-      .modal-content { padding: 1rem; width: 95%; }
-      .slider-handle::after { width: 35px; height: 35px; font-size: 0.7rem; }
-    }
-  </style>
+  }
+</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 <body>
-  <header id="siteHeader">
-    <div class="logo">
-      <img src="images/Logo.jpg" alt="TheMirrorGuySa Logo">
-    </div>
 
-    <nav>
-      <div class="nav-links" id="navLinks">
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="gallery.html" class="active">Gallery</a>
-        <a href="reviews.html">Reviews</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <div class="menu-toggle" id="menuToggle" aria-label="Toggle navigation" role="button" tabindex="0">
-        <span></span>
-        <span></span>
-        <span></span>
-      </div>
-    </nav>
-  </header>
-
-  <!-- Back to top button -->
-  <div class="back-to-top" id="backToTop" title="Back to top">
-    <i class="fas fa-chevron-up"></i>
+<header>
+  <div class="logo">
+    <img src="images/Logo.jpg" alt="TheMirrorGuySa Logo">
   </div>
 
-  <main id="mainContent">
-    
-    <div class="gallery-container">
-      <h2>Project Showcase</h2>
-      <p class="gallery-subtitle">A gallery of our transformations</p>
-
-      <div class="service-filter">
-        <button class="active" data-filter="all">All Projects</button>
-        <button data-filter="Frameless Mirrors">Frameless Mirrors</button>
-        <button data-filter="Glass Repairs">Glass Repairs</button>
-        <button data-filter="Maintenance">Maintenance</button>
-        
-      </div>
-
-      <div class="gallery-grid" id="galleryGrid"></div>
+  <nav>
+    <div class="nav-links" id="navLinks">
+      <a href="index.html" class="active">Home</a>
+      <a href="services.html">Services</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="contact.html">Contact</a>
     </div>
-
-    <!-- Modal -->
-    <div class="modal-overlay" id="modal" aria-hidden="true" role="dialog" aria-modal="true">
-      <div class="modal-content">
-        <button class="close-modal" id="closeModal" aria-label="Close modal">&times;</button>
-        <div class="swiper mySwiper" aria-live="polite">
-          <div class="swiper-wrapper" id="swiperWrapper"></div>
-          <div class="swiper-pagination"></div>
-          <div class="swiper-button-prev" aria-label="Previous slide"></div>
-          <div class="swiper-button-next" aria-label="Next slide"></div>
-        </div>
-        <div class="modal-project-info">
-          <h3 id="projectTitle"></h3>
-          <p id="projectDescription"></p>
-        </div>
-      </div>
+    <div class="menu-toggle" id="menuToggle">
+      <span></span>
+      <span></span>
+      <span></span>
     </div>
+  </nav>
+</header>
 
-    <section class="cta-section">
-      <h2>READY TO TRANSFORM YOUR SPACE?</h2>
-      <p>Contact us today for a free consultation and quote. Let's bring your vision to life with our premium mirror and glass solutions.</p>
-      <a href="contact.html" class="btn">Get Free Quote</a>
-    </section>
-  </main>
+<!-- Back to top button -->
+<div class="back-to-top" id="backToTop">
+  <i class="fas fa-chevron-up"></i>
+</div>
 
-  <footer>
-    <div class="footer-content">
-      <div class="footer-section">
-        <h3>Contact Info</h3>
-        <p><i class="fas fa-map-marker-alt"></i> Cape Town, South Africa</p>
-        <p><i class="fas fa-phone"></i> +27 11 123 4567</p>
-        <p><i class="fas fa-envelope"></i> info@themirrorguys.co.za</p>
-      </div>
-      <div class="footer-section">
-        <h3>Quick Links</h3>
-        <a href="index.html">Home</a>
-        <a href="services.html">Services</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="reviews.html">Reviews</a>
-        <a href="contact.html">Contact</a>
-      </div>
-      <div class="footer-section">
-        <h3>Follow Us</h3>
-        <p>Stay connected with us on social media</p>
-        <div class="social-links">
-          <a href="#"><i class="fab fa-facebook-f"></i></a>
-          <a href="#"><i class="fab fa-instagram"></i></a>
-          <a href="#"><i class="fab fa-linkedin-in"></i></a>
-        </div>
+<main>
+ 
+
+  <!-- About Us Section -->
+  <section class="fade-in">
+    <h2>ABOUT US</h2>
+    <div class="about fade-in">
+      <img src="images/window-repair-team-jpg.webp" alt="Meet the team">
+      <div class="about-text">
+        <p>
+          At The Mirror Guys SA, we pride ourselves on delivering quality mirror and glass solutions tailored to our clients' needs. 
+          From bathroom renovations to modern installations, our team ensures every project meets the highest standards.
+        </p>
+        <p>
+          Our skilled professionals use premium materials, innovative techniques, and a meticulous eye for detail. 
+          With over a decade of experience in the industry, we've built a reputation for reliability and excellence.
+        </p>
+        <p>
+          Customer satisfaction is our top priority, and we work closely with each client to bring their vision to life, 
+          whether it's a residential project or commercial installation.
+        </p>
       </div>
     </div>
-    <div class="copyright">
-      <p>&copy; 2023 The Mirror Guys SA. All Rights Reserved.</p>
+  </section>
+
+  <!-- Services Section -->
+  <section class="fade-in">
+    <h2>OUR SERVICES</h2>
+    <p>We offer a comprehensive range of mirror and glass services to enhance both residential and commercial spaces.</p>
+    <div class="services-gallery fade-in">
+      <div class="service-item fade-in">
+        <img src="images/Bathroom Mirror.webp" alt="Bathroom mirrors">
+        <p>Bathroom Mirrors</p>
+      </div>
+      <div class="service-item fade-in">
+        <img src="images/Glass Partition.webp" alt="Glass partitions">
+        <p>Glass Partitions</p>
+      </div>
+      <div class="service-item fade-in">
+        <img src="images/window fitting.jpg" alt="Fitting Aluminium Windows">
+        <p>Aluminium Window Fittings</p>
+      </div>
+      <div class="service-item fade-in">
+        <img src="images/Glass Repair.jpeg" alt="Glass Repairs">
+        <p>24/7 Glass Repairs</p>
+      </div>
     </div>
-  </footer>
+  </section>
 
-  <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-  <script>
-    // DOM references
-    const galleryGrid = document.getElementById("galleryGrid");
-    const modal = document.getElementById("modal");
-    const closeModalBtn = document.getElementById("closeModal");
-    const swiperWrapper = document.getElementById("swiperWrapper");
-    const projectTitle = document.getElementById("projectTitle");
-    const projectDescription = document.getElementById("projectDescription");
-    const backToTopButton = document.getElementById("backToTop");
-    const header = document.getElementById("siteHeader");
-    const main = document.getElementById("mainContent");
-    const menuToggle = document.getElementById("menuToggle");
-    const navLinks = document.getElementById("navLinks");
-    let swiper;
+  <!-- Why Choose Us -->
+  <section class="fade-in">
+    <h2>WHY CHOOSE US?</h2>
+    <div class="features fade-in">
+      <div class="feature fade-in">
+        <i class="fas fa-award"></i>
+        <h3>Quality Assurance</h3>
+        <p>We use only premium materials and adhere to the highest industry standards.</p>
+      </div>
+      <div class="feature fade-in">
+        <i class="fas fa-users"></i>
+        <h3>Expert Team</h3>
+        <p>Our skilled professionals have years of experience in mirror and glass installation.</p>
+      </div>
+      <div class="feature fade-in">
+        <i class="fas fa-clock"></i>
+        <h3>Timely Service</h3>
+        <p>We respect your time and complete projects within agreed timelines.</p>
+      </div>
+      <div class="feature fade-in">
+        <i class="fas fa-handshake"></i>
+        <h3>Customer Focused</h3>
+        <p>Your satisfaction is our priority from consultation to completion.</p>
+      </div>
+    </div>
+  </section>
 
-    // Before/After Images
-    const projects = [
-      {
-        id: 1,
-        title: "Mirror Fitting",
-        description: "Complete mirror fitting.",
-        service: "Frameless Mirrors",
-        beforeAfterImages: [
-          {
-            before: "images/M1B.jpg",
-            after:  "images/M1A.jpg"
-          },
-          {
-            before: "images/M2B.jpg",
-            after:  "images/M2A.jpg"
-          },
-           {
-            before: "images/Mirror Fitted - Before.jpg",
-            after:  "images/Mirror Fitted - After.jpg"
-          }
-        ]
-      },
-      {
-        id: 2,
-        title: "Glass Repair",
-        description: "Glass Repairs.",
-        service: "Glass Repairs",
-        beforeAfterImages: [
-          {
-            before: "images/FixedB.jpg",
-            after:  "images/Glass Repair - After.jpg"
-          },
-          {
-            before: "images/RepairB.jpg",
-            after: "images/RepairA.jpg"
-          },
-          {
-            before: "Images/KitchenB3.jpg",
-            after: "Images/KitchenA3.jpg"
-          }
-        ]
-      },
-      
-      
-    ];
+  <!-- Call to Action -->
+  <section class="cta fade-in">
+    <h2>READY TO TRANSFORM YOUR SPACE?</h2>
+    <p>Contact us today for a free consultation and quote. Let's bring your vision to life with our premium mirror and glass solutions.</p>
+    <a href="contact.html" class="btn">Get Free Quote</a>
+  </section>
+</main>
 
-    // Adjust layout for header
-    function adjustForHeader() {
-      const headerHeight = header.offsetHeight;
-      main.style.paddingTop = `${headerHeight}px`;
-      document.documentElement.style.scrollPaddingTop = `${headerHeight}px`;
-    }
+<footer>
+  <div class="footer-content">
+    <div class="footer-section">
+      <h3>Contact Info</h3>
+      <p><i class="fas fa-map-marker-alt"></i> Cape Town, South Africa</p>
+      <p><i class="fas fa-phone"></i> +27 11 123 4567</p>
+      <p><i class="fas fa-envelope"></i> info@themirrorguys.co.za</p>
+    </div>
+    <div class="footer-section">
+      <h3>Quick Links</h3>
+      <a href="index.html">Home</a>
+      <a href="services.html">Services</a>
+      <a href="gallery.html">Gallery</a>
+      <a href="reviews.html">Reviews</a>
+      <a href="contact.html">Contact</a>
+    </div>
+    <div class="footer-section">
+      <h3>Follow Us</h3>
+      <p>Stay connected with us on social media</p>
+      <div class="social-links">
+        <a href="#"><i class="fab fa-facebook-f"></i></a>
+        <a href="#"><i class="fab fa-instagram"></i></a>
+        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+      </div>
+    </div>
+  </div>
+  <div class="copyright">
+    <p>&copy; 2023 The Mirror Guys SA. All Rights Reserved.</p>
+  </div>
+</footer>
 
-    // Run on load and resize
-    window.addEventListener('load', adjustForHeader);
-    window.addEventListener('resize', adjustForHeader);
+<script>
+  // Mobile menu toggle
+  const menuToggle = document.getElementById("menuToggle");
+  const navLinks = document.getElementById("navLinks");
+  
+  menuToggle.addEventListener("click", () => {
+    navLinks.classList.toggle("active");
+    menuToggle.classList.toggle("active");
+  });
 
-    // Mobile menu toggle
-    menuToggle.addEventListener('click', () => {
-      navLinks.classList.toggle("active");
-      menuToggle.classList.toggle("active");
-      setTimeout(adjustForHeader, 120);
-    });
-
-    // Create gallery items
-    function createGalleryItems(filter = "all") {
-      galleryGrid.innerHTML = "";
-      let filtered = projects;
-      if (filter !== "all") filtered = projects.filter(p => p.service === filter);
-
-      if (filtered.length === 0) {
-        galleryGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; padding: 40px;">No projects found for this category.</p>';
-        return;
-      }
-
-      filtered.forEach(project => {
-        const item = document.createElement("div");
-        item.className = "gallery-item";
-        item.innerHTML = `
-          <img src="${project.beforeAfterImages[0].after}" alt="${project.title}">
-          <div class="service-badge">${project.service}</div>
-          <div class="gallery-item-info">
-            <h3>${project.title}</h3>
-            <p>${project.description.substring(0, 100)}...</p>
-          </div>
-        `;
-        item.onclick = () => openModal(project.id);
-        galleryGrid.appendChild(item);
-      });
-    }
-
-    // Open modal
-    function openModal(id) {
-      const project = projects.find(p => p.id === id);
-      if (!project) return;
-
-      projectTitle.textContent = project.title;
-      projectDescription.textContent = project.description;
-      swiperWrapper.innerHTML = "";
-
-      project.beforeAfterImages.forEach(pair => {
-        const slide = document.createElement("div");
-        slide.className = "swiper-slide";
-        slide.innerHTML = `
-          <div class="before-after-slide">
-            <div class="before-image"><img src="${pair.before}" alt="Before ${project.title}"></div>
-            <img src="${pair.after}" alt="After ${project.title}">
-            <div class="slider-handle"></div>
-          </div>
-        `;
-        swiperWrapper.appendChild(slide);
-      });
-
-      // Destroy previous swiper if exists
-      if (swiper) swiper.destroy(true, true);
-
-      swiper = new Swiper(".mySwiper", {
-        loop: true,
-        navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
-        pagination: { el: ".swiper-pagination", clickable: true },
-        allowTouchMove: false
-      });
-
-      // Initialize the before/after sliders
-      initBeforeAfterSliders();
-
-      // Show modal
-      modal.classList.add("active");
-      modal.setAttribute('aria-hidden', 'false');
-      document.body.style.overflow = 'hidden';
-
-      // Recalc header offsets
-      setTimeout(adjustForHeader, 60);
-    }
-
-    // Initialize before/after sliders
-    function initBeforeAfterSliders() {
-      const sliders = document.querySelectorAll('.before-after-slide');
-      sliders.forEach(slider => {
-        const beforeImage = slider.querySelector('.before-image');
-        const handle = slider.querySelector('.slider-handle');
-
-        beforeImage.style.width = '50%';
-        handle.style.left = '50%';
-
-        let isDragging = false;
-        let startPos = 0;
-        let currentPos = 50;
-
-        const getClientX = (e) => {
-          if (e.type.includes('touch')) {
-            return e.touches[0].clientX;
-          }
-          return e.clientX;
-        };
-
-        const moveSlider = (clientX) => {
-          const rect = slider.getBoundingClientRect();
-          let pos = ((clientX - rect.left) / rect.width) * 100;
-          pos = Math.max(0, Math.min(100, pos));
-          beforeImage.style.width = `${pos}%`;
-          handle.style.left = `${pos}%`;
-          currentPos = pos;
-        };
-
-        const preventDrag = (e) => { e.preventDefault(); return false; };
-
-        slider.addEventListener('dragstart', preventDrag);
-        slider.querySelectorAll('img').forEach(img => img.addEventListener('dragstart', preventDrag));
-
-        const handleStart = (e) => {
-          isDragging = true;
-          startPos = getClientX(e) - (currentPos / 100 * slider.offsetWidth);
-          e.preventDefault();
-          e.stopPropagation();
-        };
-
-        const handleMove = (e) => {
-          if (!isDragging) return;
-          moveSlider(getClientX(e));
-          e.preventDefault();
-          e.stopPropagation();
-        };
-
-        const handleEnd = () => {
-          isDragging = false;
-        };
-
-        // Mouse events
-        handle.addEventListener('mousedown', handleStart);
-        slider.addEventListener('mousemove', handleMove);
-        document.addEventListener('mouseup', handleEnd);
-
-        // Touch events
-        handle.addEventListener('touchstart', handleStart, { passive: false });
-        slider.addEventListener('touchmove', handleMove, { passive: false });
-        document.addEventListener('touchend', handleEnd);
-
-        // Allow clicking on slider area to reposition handle
-        slider.addEventListener('click', (e) => {
-          if (isDragging) return;
-          moveSlider(getClientX(e));
+  // Smooth scrolling for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
         });
-      });
-    }
-
-    // Modal close handlers
-    closeModalBtn.addEventListener('click', () => {
-      modal.classList.remove("active");
-      modal.setAttribute('aria-hidden', 'true');
-      document.body.style.overflow = 'auto';
-    });
-
-    modal.addEventListener('click', (e) => {
-      if (e.target === modal) {
-        modal.classList.remove("active");
-        modal.setAttribute('aria-hidden', 'true');
-        document.body.style.overflow = 'auto';
       }
     });
+  });
 
-    // Filters
-    document.querySelectorAll(".service-filter button").forEach(btn => {
-      btn.addEventListener("click", () => {
-        document.querySelectorAll(".service-filter button").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        createGalleryItems(btn.dataset.filter);
-        setTimeout(adjustForHeader, 60);
-      });
+  // Scroll animations
+  const faders = document.querySelectorAll('.fade-in');
+  const appearOptions = { threshold: 0.3 };
+  const appearOnScroll = new IntersectionObserver((entries, observer) => {
+    entries.forEach(entry => {
+      if (!entry.isIntersecting) return;
+      entry.target.classList.add('visible');
+      observer.unobserve(entry.target);
     });
+  }, appearOptions);
+  faders.forEach(fader => appearOnScroll.observe(fader));
 
-    // Back to top
-    window.addEventListener("scroll", () => {
-      if (window.pageYOffset > 300) backToTopButton.classList.add("active");
-      else backToTopButton.classList.remove("active");
+  // Back to top functionality
+  const backToTopButton = document.getElementById("backToTop");
+  
+  window.addEventListener("scroll", () => {
+    if (window.pageYOffset > 300) {
+      backToTopButton.classList.add("active");
+    } else {
+      backToTopButton.classList.remove("active");
+    }
+  });
+  
+  backToTopButton.addEventListener("click", () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth"
     });
+  });
+</script>
 
-    backToTopButton.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    });
-
-    // Initialize everything
-    createGalleryItems();
-    setTimeout(adjustForHeader, 80);
-  </script>
 </body>
 </html>
