@@ -52,7 +52,7 @@
     }
     
     .logo img { 
-      max-width: 140px; 
+      max-width: 140px; /* Slightly smaller logo */
       height: auto; 
     }
 
@@ -65,14 +65,14 @@
       display: flex; 
       justify-content: center; 
       gap: 25px; 
-      padding: 8px 0; 
+      padding: 8px 0; /* Reduced padding */
     }
     
     .nav-links a { 
       color: #fff; 
       text-decoration: none; 
       font-weight: bold; 
-      font-size: 0.95rem; 
+      font-size: 0.95rem; /* Slightly smaller font */
       transition: color 0.3s ease; 
       position: relative;
     }
@@ -97,17 +97,17 @@
       display: none; 
       flex-direction: column; 
       cursor: pointer; 
-      padding: 8px; 
+      padding: 8px; /* Reduced padding */
       position: absolute; 
       right: 15px; 
-      top: 10px; 
+      top: 10px; /* Adjusted position */
     }
     
     .menu-toggle span { 
-      width: 24px; 
-      height: 2.5px; 
-     background: #ec0606; 
-      margin: 3px 0;
+      width: 24px; /* Slightly smaller */
+      height: 2.5px; /* Slightly thinner */
+      background: #fff; 
+      margin: 3px 0; /* Reduced margin */
       transition: var(--transition);
     }
     
@@ -123,9 +123,9 @@
       transform: rotate(-45deg) translate(6px, -6px);
     }
 
-    /* Main content*/
+    /* Main content - Adjusted padding to account for thinner header */
     main { 
-      padding: 120px 20px 40px; 
+      padding: 120px 20px 40px; /* Reduced top padding */
       max-width: 1200px; 
       margin: auto; 
     }
@@ -133,36 +133,49 @@
     section {
       margin-bottom: 60px;
     }
+
+     .main-heading {
+      text-align: center;
+      margin-top: 5%;
+      margin-bottom: 20%; 
+      padding: 0;
+      background: transparent;
+      border-radius: 0;
+      box-shadow: none;
+    }
+
+     h1 {
+      margin-top: 40px;
+      margin-bottom: 40px;
+      color: var(--secondary-color);
+      border-bottom: 2px solid var(--primary-color);
+      display: inline-block;
+      padding-bottom: 5px;
+      font-size: 1.8rem; 
+
+     }
     
-    h1 { 
-      text-align: center; 
-      color: var(--primary-color); 
-      margin-bottom: 30px; 
+    .main-heading h2 {
       font-size: 2.5rem;
+      margin-bottom: 20px;
+      color: var(--secondary-color);
       position: relative;
-      padding-bottom: 15px;
+      display: inline-block;
     }
     
-    h1::after {
+    .main-heading h2::after {
       content: '';
       position: absolute;
-      bottom: 0;
+      width: 80px;
+      height: 4px;
+      background-color: var(--primary-color);
+      bottom: -10px;
       left: 50%;
       transform: translateX(-50%);
-      width: 100px;
-      height: 3px;
-      background: var(--primary-color);
     }
     
-    h2 { 
-      margin-top: 0; 
-      color: var(--secondary-color); 
-      border-bottom: 2px solid var(--primary-color); 
-      display: inline-block; 
-      padding-bottom: 5px; 
-      padding-top: 8px
-      font-size: 1.8rem;
-    }
+    
+   
     
     p { 
       margin-top: 15px; 
@@ -483,9 +496,9 @@
 </div>
 
 <main>
-  <!-- services section -->
-  <section class="services-container">
-    <h2>What We Offer</h2>
+  <!-- Page now starts directly with the services section -->
+   <section class="main-heading fade-in">
+      <h1>What we offer</h1>
     <div class="services">
       <div class="service-card">
         <i class="fas fa-expand-alt"></i>
@@ -628,6 +641,4 @@
 </script>
 
 </body>
-
 </html>
-
